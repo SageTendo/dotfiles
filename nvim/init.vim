@@ -1,0 +1,1 @@
+/home/nyaa/dotfiles/nvim/init.vim
