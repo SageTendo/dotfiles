@@ -1,0 +1,34 @@
+builtin:
+    org.gnome.desktop.wm.keybindings:
+        - key: maximize
+          bindings:
+            - <Super>Up
+        - key: close
+          bindings:
+            - <Super>q
+        - key: unmaximize
+          bindings:
+            - <Super>Down
+            - <Alt>F5
+    org.gnome.mutter.keybindings:
+        - key: toggle-tiled-left
+          bindings:
+            - <Control><Super>a
+        - key: toggle-tiled-right
+          bindings:
+            - <Control><Super>d
+    org.gnome.shell.keybindings:
+        - key: toggle-quick-settings
+          bindings: []
+        - key: toggle-application-view
+          bindings:
+            - <Super>r
+custom:
+    - id: custom-keybindings/custom2
+      name: Task man
+      binding: <Shift><Control>Escape
+      command: gnome-system-monitor
+    - id: custom-keybindings/custom0
+      name: Terminal
+      binding: <Shift><Control>BackSpace
+      command: ptyxis
