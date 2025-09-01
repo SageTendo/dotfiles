@@ -23,6 +23,9 @@ ln -sfn "$DOTFILES/themes" "$HOME/.themes"
 if [ ! -d "$HOME/.oh-my-bash" ]; then
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
     echo "✅ Oh My Bash installed from repo"
+    
+    # Re-run script
+    ./install.sh
 else
     echo "ℹ️ Oh My Bash already installed"
 fi
@@ -30,9 +33,12 @@ fi
 # Install Spicetify via official script if not installed
 if ! command -v spicetify &> /dev/null; then
     echo "Installing Spicetify..."
+    cp -r ~/dotfiles/config/spicetify ~/.config/spicetify
     curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | sh
-    cp -r ~/dotfiles/spicetify ~/.config/spicetify
     echo "✅ Spicetify installed"
+
+    # Re-run script
+    ./install.sh
 else
     echo "ℹ️ Spicetify already installed"
 fi
