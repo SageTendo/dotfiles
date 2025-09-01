@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
 DOTFILES="$HOME/dotfiles"
+
+echo "🚀 Starting dotfiles installation..."
 
 # Bash
 ln -sf "$DOTFILES/bash/.bashrc" "$HOME/.bashrc"
@@ -19,30 +21,43 @@ ln -sfn "$DOTFILES/vim/.vim" "$HOME/.vim"
 # Themes
 ln -sfn "$DOTFILES/themes" "$HOME/.themes"
 
-# Install Oh My Bash from GitHub (if not already installed)
+# Install Oh My Bash
 if [ ! -d "$HOME/.oh-my-bash" ]; then
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
-    echo "✅ Oh My Bash installed from repo"
-    
-    # Re-run script
-    source .bashrc
-    ./$DOTFILES/install.sh
+    echo "Installing Oh My Bash..."
+    (
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" "" --unattended
+    )
+    echo "✅ Oh My Bash installed"
 else
     echo "ℹ️ Oh My Bash already installed"
 fi
 
-# Install Spicetify via official script if not installed
+# Install Spicetify
 if ! command -v spicetify &> /dev/null; then
     echo "Installing Spicetify..."
-    cp -r ~/dotfiles/config/spicetify ~/.config/spicetify
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh)"
-    echo "✅ Spicetify installed"
+    mkdir -p "$HOME/.config"
+    cp -r "$DOTFILES/config/spicetify" "$HOME/.config/spicetify"
+    
+    # Run Spicetify installer in a subshell, auto-answer "no" to Marketplace
+    (
+    # Prevent script from stopping the main shell
+    set +e
+    curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh \
+    | sed '/Do you want to install spicetify Marketplace/,/^fi/d' \
+    | sh
+    set -e
+    )
 
-    # Re-run script
-    source .bashrc
-    ./$DOTFILES/install.sh
+    # Update paths
+    export PATH="$HOME/.spicetify:$PATH"
+
+    # Fix Spotify permissions (Flatpak)
+    sudo chmod a+wr /var/lib/flatpak/app/com.spotify.Client/x86_64/stable/active/files/extra/share/spotify
+    sudo chmod a+wr -R /var/lib/flatpak/app/com.spotify.Client/x86_64/stable/active/files/extra/share/spotify/Apps
+    echo "✅ Spicetify installed"
 else
-    echo "ℹ️ Spicetify already installed"
+    echo "Spicetify already installed"
 fi
 
-echo "✅ Dotfiles installed successfully"
+exec bash
+echo "🎉 Dotfiles installation completed successfully!"
