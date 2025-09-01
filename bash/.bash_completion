@@ -197,4 +197,4 @@ _poetry_b1994a72411b9f91_complete()
 }
 
 complete -o default -F _poetry_b1994a72411b9f91_complete poetry
-complete -o default -F _poetry_b1994a72411b9f91_complete /home/nyaa/.local/share/pipx/venvs/poetry/bin/poetry
+complete -o default -F _poetry_b1994a72411b9f91_complete /home/$USER/.local/share/pipx/venvs/poetry/bin/poetry
