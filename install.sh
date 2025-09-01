@@ -31,7 +31,7 @@ fi
 if ! command -v spicetify &> /dev/null; then
     echo "Installing Spicetify..."
     curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | sh
-    ln -s ~/dotfiles/spicetify ~/.config/spicetify
+    cp -r ~/dotfiles/spicetify ~/.config/spicetify
     echo "✅ Spicetify installed"
 else
     echo "ℹ️ Spicetify already installed"
