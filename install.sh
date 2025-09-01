@@ -25,7 +25,8 @@ if [ ! -d "$HOME/.oh-my-bash" ]; then
     echo "✅ Oh My Bash installed from repo"
     
     # Re-run script
-    ./install.sh
+    source .bashrc
+    ./$DOTFILES/install.sh
 else
     echo "ℹ️ Oh My Bash already installed"
 fi
@@ -34,11 +35,12 @@ fi
 if ! command -v spicetify &> /dev/null; then
     echo "Installing Spicetify..."
     cp -r ~/dotfiles/config/spicetify ~/.config/spicetify
-    curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | sh
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh)"
     echo "✅ Spicetify installed"
 
     # Re-run script
-    ./install.sh
+    source .bashrc
+    ./$DOTFILES/install.sh
 else
     echo "ℹ️ Spicetify already installed"
 fi
